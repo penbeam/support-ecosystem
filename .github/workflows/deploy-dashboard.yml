@@ -29,7 +29,7 @@ jobs:
         # We use v3 here because upload-pages-artifact (for Pages) 
         # is NOT the same as upload-artifact (the one that is banned).
         # However, if your repo is failing, we will try the absolute latest:
-        uses: actions/upload-pages-artifact@v3.0.1 
+        uses: actions/upload-pages-artifact@v3 
 
       - name: Deploy to GitHub Pages
         id: deployment
