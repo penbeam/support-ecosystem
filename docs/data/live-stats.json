@@ -1,1 +1,32 @@
-{}
+{
+  "system": {
+    "status": "operational",
+    "last_updated": "2024-01-01T00:00:00Z",
+    "version": "1.0.0",
+    "uptime": "99.9%"
+  },
+  "conversations": {
+    "total_today": 0,
+    "total_this_week": 0,
+    "total_all_time": 0,
+    "active_now": 0
+  },
+  "performance": {
+    "auto_resolution_rate": 0,
+    "avg_response_time_seconds": 0,
+    "avg_confidence_score": 0,
+    "customer_satisfaction": 0
+  },
+  "knowledge": {
+    "total_articles": 3,
+    "articles_this_week": 0,
+    "knowledge_gaps_identified": 0,
+    "most_viewed_article": "getting-started"
+  },
+  "team": {
+    "open_tickets": 1,
+    "resolved_today": 0,
+    "avg_resolution_time_hours": 0,
+    "escalation_rate": 0
+  }
+}
