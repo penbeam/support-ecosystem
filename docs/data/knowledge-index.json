@@ -1,1 +1,40 @@
-{}
+{
+  "articles": [
+    {
+      "id": "kb_001",
+      "title": "Welcome to Support",
+      "category": "general",
+      "file_path": "knowledge-base/solutions/welcome.md",
+      "view_count": 0,
+      "success_rate": 0,
+      "last_updated": "2024-01-01T00:00:00Z",
+      "tags": ["welcome", "introduction"]
+    },
+    {
+      "id": "kb_002",
+      "title": "Getting Started FAQ",
+      "category": "faq",
+      "file_path": "knowledge-base/faqs/getting-started.md",
+      "view_count": 0,
+      "success_rate": 0,
+      "last_updated": "2024-01-01T00:00:00Z",
+      "tags": ["faq", "beginner"]
+    },
+    {
+      "id": "kb_003",
+      "title": "Common Issues Guide",
+      "category": "troubleshooting",
+      "file_path": "knowledge-base/troubleshooting/common-issues.md",
+      "view_count": 0,
+      "success_rate": 0,
+      "last_updated": "2024-01-01T00:00:00Z",
+      "tags": ["troubleshooting", "common"]
+    }
+  ],
+  "categories": {
+    "solutions": 1,
+    "faqs": 1,
+    "troubleshooting": 1
+  },
+  "search_tags": ["welcome", "introduction", "faq", "beginner", "troubleshooting", "common"]
+}
