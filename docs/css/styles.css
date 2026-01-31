@@ -750,6 +750,7 @@ main {
 .analytics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-auto-rows: 400px;
     gap: 2rem;
     margin-bottom: 2rem;
 }
