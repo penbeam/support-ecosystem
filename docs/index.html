@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Pages Command Center | Enterprise Support Dashboard</title>
+    
+    <!-- Meta for SEO & Social -->
+    <meta name="description" content="Real-time enterprise support dashboard with AI-powered analytics">
+    <meta property="og:title" content="GitHub Pages Command Center">
+    <meta property="og:description" content="Transparent, AI-powered support ecosystem">
+    <meta property="og:image" content="https://raw.githubusercontent.com/username/support-ecosystem/main/docs/assets/og-image.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">🤖</div>
+                    <div>
+                        <h1 class="logo-title">GitHub Pages Command Center</h1>
+                        <p class="logo-subtitle">Enterprise Support Dashboard</p>
+                    </div>
+                </div>
+                
+                <div class="header-stats">
+                    <div class="stat-badge live">
+                        <span class="pulse"></span>
+                        <span>LIVE</span>
+                    </div>
+                    <div class="stat-badge" id="last-updated">
+                        <span>Updated: Just now</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#" class="active" data-page="dashboard">📊 Dashboard</a></li>
+                <li><a href="#" data-page="knowledge">📚 Knowledge Base</a></li>
+                <li><a href="#" data-page="tickets">🎫 Tickets</a></li>
+                <li><a href="#" data-page="analytics">📈 Analytics</a></li>
+                <li><a href="#" data-page="about">ℹ️ About</a></li>
+            </ul>
+            
+            <div class="nav-controls">
+                <button class="btn-refresh" id="refresh-btn" title="Refresh data">
+                    <span>🔄</span> Refresh Now
+                </button>
+                <button class="btn-theme" id="theme-toggle" title="Toggle theme">
+                    <span id="theme-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Page: Dashboard (Default) -->
+        <section id="page-dashboard" class="page active">
+            <!-- System Status Banner -->
+            <div class="status-banner" id="system-status">
+                <div class="status-content">
+                    <span class="status-indicator operational"></span>
+                    <span class="status-text">All systems operational</span>
+                    <span class="status-time" id="uptime-display">Uptime: 99.9%</span>
+                </div>
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="metrics-grid">
+                <!-- Card 1: Active Conversations -->
+                <div class="metric-card highlight">
+                    <div class="metric-header">
+                        <h3>🤖 Active Conversations</h3>
+                        <span class="metric-trend positive">+12%</span>
+                    </div>
+                    <div class="metric-value" id="active-conversations">0</div>
+                    <div class="metric-desc">Real-time support chats</div>
+                    <div class="metric-chart mini">
+                        <canvas id="chart-active"></canvas>
+                    </div>
+                </div>
+
+                <!-- Card 2: Auto-Resolution Rate -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h3>⚡ Auto-Resolution</h3>
+                        <span class="metric-trend positive">+5%</span>
+                    </div>
+                    <div class="metric-value" id="resolution-rate">0%</div>
+                    <div class="metric-desc">Solved without human help</div>
+                    <div class="metric-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="resolution-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Avg Response Time -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h3>⏱️ Avg Response Time</h3>
+                        <span class="metric-trend negative">-3s</span>
+                    </div>
+                    <div class="metric-value" id="response-time">0s</div>
+                    <div class="metric-desc">Seconds to first response</div>
+                    <div class="metric-comparison">
+                        <span class="comparison-better">Better than industry avg (2.1m)</span>
+                    </div>
+                </div>
+
+                <!-- Card 4: Customer Satisfaction -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h3>⭐ Satisfaction</h3>
+                        <span class="metric-trend neutral">±0</span>
+                    </div>
+                    <div class="metric-value" id="satisfaction-score">0.0</div>
+                    <div class="metric-desc">Out of 5.0 average</div>
+                    <div class="metric-stars">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">☆</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>📈 Conversations Over Time (24h)</h3>
+                        <div class="chart-controls">
+                            <button class="time-btn active" data-hours="24">24h</button>
+                            <button class="time-btn" data-hours="48">48h</button>
+                            <button class="time-btn" data-hours="168">7d</button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-conversations"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>🎯 Resolution Status</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-resolution"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity & Knowledge Gaps -->
+            <div class="info-grid">
+                <!-- Recent Conversations -->
+                <div class="info-card">
+                    <div class="info-header">
+                        <h3>💬 Recent Conversations</h3>
+                        <a href="#" class="view-all">View all</a>
+                    </div>
+                    <div class="conversations-list" id="recent-conversations">
+                        <!-- Dynamic content from JSON -->
+                        <div class="conversation-item">
+                            <div class="conv-query">Loading conversations...</div>
+                            <div class="conv-meta">
+                                <span class="conv-time">--:--</span>
+                                <span class="conv-status resolved">Resolved</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Knowledge Gaps -->
+                <div class="info-card">
+                    <div class="info-header">
+                        <h3>🔍 Knowledge Gaps Identified</h3>
+                        <span class="badge" id="gap-count">0</span>
+                    </div>
+                    <div class="gaps-list" id="knowledge-gaps">
+                        <!-- Dynamic content from JSON -->
+                        <div class="gap-item">
+                            <div class="gap-text">Analyzing conversation patterns...</div>
+                            <div class="gap-meta">AI Processing</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Alerts -->
+                <div class="info-card">
+                    <div class="info-header">
+                        <h3>⚠️ System Alerts</h3>
+                        <span class="alert-badge" id="alert-count">0</span>
+                    </div>
+                    <div class="alerts-list" id="system-alerts">
+                        <div class="alert-item info">
+                            <div class="alert-icon">ℹ️</div>
+                            <div class="alert-content">
+                                <div class="alert-title">System initialized</div>
+                                <div class="alert-desc">Dashboard is ready to receive data</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Knowledge Base -->
+        <section id="page-knowledge" class="page">
+            <div class="page-header">
+                <h2>📚 Knowledge Base</h2>
+                <p>Self-learning AI-powered knowledge articles</p>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" id="kb-search" placeholder="Search knowledge base...">
+                <button class="search-btn">🔍</button>
+            </div>
+            
+            <div class="kb-stats">
+                <div class="kb-stat">
+                    <span class="kb-stat-value" id="total-articles">3</span>
+                    <span class="kb-stat-label">Total Articles</span>
+                </div>
+                <div class="kb-stat">
+                    <span class="kb-stat-value" id="articles-this-week">0</span>
+                    <span class="kb-stat-label">This Week</span>
+                </div>
+                <div class="kb-stat">
+                    <span class="kb-stat-value" id="most-viewed-article">welcome</span>
+                    <span class="kb-stat-label">Most Viewed</span>
+                </div>
+            </div>
+            
+            <div class="kb-categories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="solutions">Solutions</button>
+                <button class="category-btn" data-category="faqs">FAQs</button>
+                <button class="category-btn" data-category="troubleshooting">Troubleshooting</button>
+            </div>
+            
+            <div class="kb-articles" id="knowledge-articles">
+                <!-- Articles loaded from JSON -->
+            </div>
+        </section>
+
+        <!-- Page: Tickets -->
+        <section id="page-tickets" class="page">
+            <div class="page-header">
+                <h2>🎫 Support Tickets</h2>
+                <p>Anonymized ticket tracking (Open & Closed)</p>
+            </div>
+            
+            <div class="tickets-stats">
+                <div class="ticket-stat open">
+                    <span class="ticket-stat-value" id="open-tickets">1</span>
+                    <span class="ticket-stat-label">Open</span>
+                </div>
+                <div class="ticket-stat closed">
+                    <span class="ticket-stat-value" id="closed-tickets">1</span>
+                    <span class="ticket-stat-label">Closed</span>
+                </div>
+                <div class="ticket-stat">
+                    <span class="ticket-stat-value" id="avg-resolution">0h</span>
+                    <span class="ticket-stat-label">Avg Resolution</span>
+                </div>
+            </div>
+            
+            <div class="tickets-list" id="tickets-container">
+                <!-- Tickets loaded from issues/ folder -->
+            </div>
+        </section>
+
+        <!-- Page: Analytics -->
+        <section id="page-analytics" class="page">
+            <div class="page-header">
+                <h2>📈 Advanced Analytics</h2>
+                <p>Performance trends and insights</p>
+            </div>
+            
+            <div class="analytics-grid">
+                <div class="analytics-chart">
+                    <h3>Confidence Score Trend</h3>
+                    <canvas id="chart-confidence"></canvas>
+                </div>
+                <div class="analytics-chart">
+                    <h3>Category Distribution</h3>
+                    <canvas id="chart-categories"></canvas>
+                </div>
+                <div class="analytics-chart">
+                    <h3>Response Time Distribution</h3>
+                    <canvas id="chart-response-dist"></canvas>
+                </div>
+                <div class="analytics-chart">
+                    <h3>Customer Emotion Analysis</h3>
+                    <canvas id="chart-emotions"></canvas>
+                </div>
+            </div>
+            
+            <div class="insights-card">
+                <h3>🤖 AI Insights</h3>
+                <div class="insights-list" id="ai-insights">
+                    <div class="insight-item">
+                        <div class="insight-icon">💡</div>
+                        <div class="insight-content">
+                            <div class="insight-title">Initializing analysis</div>
+                            <div class="insight-desc">AI is processing conversation patterns</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: About -->
+        <section id="page-about" class="page">
+            <div class="about-container">
+                <div class="about-hero">
+                    <h2>About GitHub Pages Command Center</h2>
+                    <p class="tagline">Zero-cost, self-evolving, GitOps-driven enterprise support system</p>
+                </div>
+                
+                <div class="about-features">
+                    <div class="feature">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Privacy First</h3>
+                        <p>No PII in public repositories. All private data encrypted in Google Sheets.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🤖</div>
+                        <h3>AI Autonomous</h3>
+                        <p>Self-learning knowledge base that improves from every conversation.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">📊</div>
+                        <h3>Transparent Metrics</h3>
+                        <p>Real-time public dashboard with anonymized analytics.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🔄</div>
+                        <h3>GitOps Driven</h3>
+                        <p>Everything as code. Version controlled. Automated deployments.</p>
+                    </div>
+                </div>
+                
+                <div class="about-architecture">
+                    <h3>🏗️ Architecture</h3>
+                    <div class="architecture-diagram">
+                        <div class="arch-col private">
+                            <h4>PRIVATE Data Flow</h4>
+                            <div class="arch-step">Customer → Bot Interface</div>
+                            <div class="arch-step">→ Make.com Automation</div>
+                            <div class="arch-step">→ Google Sheets (Encrypted)</div>
+                            <div class="arch-step">→ Team Notifications</div>
+                        </div>
+                        <div class="arch-arrow">→</div>
+                        <div class="arch-col public">
+                            <h4>PUBLIC Data Flow</h4>
+                            <div class="arch-step">Anonymization</div>
+                            <div class="arch-step">→ GitHub (docs/data/*.json)</div>
+                            <div class="arch-step">→ GitHub Pages Dashboard</div>
+                            <div class="arch-step">→ Public Analytics</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-tech">
+                    <h3>🛠️ Tech Stack</h3>
+                    <div class="tech-list">
+                        <span class="tech-badge">GitHub Pages</span>
+                        <span class="tech-badge">Make.com</span>
+                        <span class="tech-badge">Google Sheets</span>
+                        <span class="tech-badge">Gemini AI</span>
+                        <span class="tech-badge">Telegram</span>
+                        <span class="tech-badge">Discord</span>
+                        <span class="tech-badge">Chart.js</span>
+                        <span class="tech-badge">Vanilla JS</span>
+                    </div>
+                </div>
+                
+                <div class="about-status">
+                    <h3>📡 System Status</h3>
+                    <div class="status-items">
+                        <div class="status-item">
+                            <span class="status-indicator operational"></span>
+                            <span>Dashboard</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-indicator operational"></span>
+                            <span>Data Pipeline</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-indicator operational"></span>
+                            <span>Knowledge Base</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-indicator operational"></span>
+                            <span>Notifications</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">🤖 GPCC</div>
+                    <p class="footer-desc">
+                        Enterprise-grade support ecosystem<br>
+                        <span class="footer-note">All public data is anonymized. No PII stored.</span>
+                    </p>
+                </div>
+                
+                <div class="footer-stats">
+                    <div class="footer-stat">
+                        <span class="footer-stat-value" id="footer-conversations">0</span>
+                        <span class="footer-stat-label">Conversations</span>
+                    </div>
+                    <div class="footer-stat">
+                        <span class="footer-stat-value" id="footer-articles">3</span>
+                        <span class="footer-stat-label">Articles</span>
+                    </div>
+                    <div class="footer-stat">
+                        <span class="footer-stat-value" id="footer-uptime">99.9%</span>
+                        <span class="footer-stat-label">Uptime</span>
+                    </div>
+                </div>
+                
+                <div class="footer-meta">
+                    <div class="auto-refresh">
+                        <span>🔄 Auto-refresh: </span>
+                        <select id="refresh-interval">
+                            <option value="30">30 seconds</option>
+                            <option value="60" selected>1 minute</option>
+                            <option value="300">5 minutes</option>
+                            <option value="0">Manual</option>
+                        </select>
+                    </div>
+                    <div class="last-update" id="footer-updated">
+                        Last update: Loading...
+                    </div>
+                    <div class="version">
+                        v1.0.0 | GPCC Dashboard
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>
+                    <strong>⚠️ Important:</strong> This dashboard displays only anonymized, aggregated data. 
+                    Private information is never exposed. All metrics update in real-time.
+                </p>
+                <p class="footer-links">
+                    <a href="https://github.com/your-username/support-ecosystem" target="_blank">View on GitHub</a> •
+                    <a href="#" id="privacy-toggle">Privacy Details</a> •
+                    <span id="data-source">Data Source: docs/data/*.json</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/dashboard.js"></script>
+    <script src="js/charts.js"></script>
+    
+    <!-- Initialize on load -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('GPCC Dashboard initialized');
+            // Initialize dashboard
+            if (typeof initDashboard === 'function') {
+                initDashboard();
+            }
+            // Initialize charts
+            if (typeof initCharts === 'function') {
+                initCharts();
+            }
+        });
+    </script>
+</body>
+</html>
