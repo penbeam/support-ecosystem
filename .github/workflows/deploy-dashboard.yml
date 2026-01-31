@@ -3,15 +3,12 @@ name: Deploy Dashboard to GitHub Pages
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'docs/**'
-      - '.github/workflows/deploy-dashboard.yml'
-  workflow_dispatch:  # Allows manual trigger
+  workflow_dispatch:
 
 permissions:
-  contents: read
   pages: write
   id-token: write
+  contents: read
 
 jobs:
   deploy:
@@ -19,27 +16,18 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
-      - name: Build dashboard (if needed)
-        run: |
-          echo "No build step needed - static HTML site"
-          
-      - name: Create CNAME file (optional for custom domain)
-        run: |
-          if [ -n "${{ vars.CUSTOM_DOMAIN }}" ]; then
-            echo "${{ vars.CUSTOM_DOMAIN }}" > docs/CNAME
-          fi
-          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'docs/'
+          path: 'docs'
           
       - name: Deploy to GitHub Pages
         id: deployment
