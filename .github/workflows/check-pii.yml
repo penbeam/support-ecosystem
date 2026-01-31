@@ -1,0 +1,87 @@
+name: Check for PII (Personal Identifiable Information)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-pii:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Check for email addresses
+        run: |
+          echo "🔍 Checking for email addresses..."
+          if grep -r -E '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b' docs/data/ --include="*.json"; then
+            echo "❌ ERROR: Email addresses found in public data!"
+            echo "Files in docs/data/ should NEVER contain email addresses"
+            exit 1
+          else
+            echo "✅ No email addresses found in docs/data/"
+          fi
+          
+      - name: Check for phone numbers
+        run: |
+          echo "🔍 Checking for phone numbers..."
+          if grep -r -E '\+\d{1,3}[-\s]?\d{1,14}' docs/data/ --include="*.json"; then
+            echo "❌ ERROR: Phone numbers found in public data!"
+            exit 1
+          else
+            echo "✅ No phone numbers found in docs/data/"
+          fi
+          
+      - name: Check for credit card numbers
+        run: |
+          echo "🔍 Checking for credit card numbers..."
+          if grep -r -E '\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b' docs/data/ --include="*.json"; then
+            echo "❌ ERROR: Credit card numbers found!"
+            exit 1
+          else
+            echo "✅ No credit card numbers found"
+          fi
+          
+      - name: Check for API keys
+        run: |
+          echo "🔍 Checking for API keys..."
+          # Common API key patterns
+          PATTERNS=(
+            "sk_[a-zA-Z0-9]{48}"
+            "AIza[a-zA-Z0-9_-]{35}"
+            "xox[pborsa]-[a-zA-Z0-9]{10,48}"
+            "gh[pousr]_[a-zA-Z0-9]{36}"
+            "eyJ[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]{10,}"
+          )
+          
+          for pattern in "${PATTERNS[@]}"; do
+            if grep -r -E "$pattern" . --exclude-dir=.git; then
+              echo "❌ ERROR: Potential API key found!"
+              exit 1
+            fi
+          done
+          echo "✅ No API keys found"
+          
+      - name: Check JSON files are valid
+        run: |
+          echo "🔍 Validating JSON files..."
+          for file in docs/data/*.json; do
+            if python3 -m json.tool "$file" > /dev/null 2>&1; then
+              echo "✅ $file is valid JSON"
+            else
+              echo "❌ ERROR: $file is not valid JSON!"
+              exit 1
+            fi
+          done
+          
+      - name: Success message
+        if: success()
+        run: |
+          echo "🎉 All PII checks passed!"
+          echo "✅ No sensitive data found in public repository"
+          echo "✅ All JSON files are valid"
+          echo "✅ Ready for deployment"
