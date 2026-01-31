@@ -1,36 +1,34 @@
-name: Deploy Dashboard
+name: Deploy Dashboard to GitHub Pages
 
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'docs/**'
   workflow_dispatch:
 
 permissions:
-  contents: read
   pages: write
   id-token: write
+  contents: read
 
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+        
       - name: Setup Pages
-        uses: actions/configure-pages@v4
-
+        uses: actions/configure-pages@v5
+        
       - name: Upload artifact
-        # We use v3 here because upload-pages-artifact (for Pages) 
-        # is NOT the same as upload-artifact (the one that is banned).
-        # However, if your repo is failing, we will try the absolute latest:
-        uses: actions/upload-pages-artifact@v3.1.1
-
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: 'docs'
+          
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
