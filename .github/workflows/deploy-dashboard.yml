@@ -23,12 +23,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5  # Updated to v5
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3 # Note: Pages versioning is separate, v3 is current for Pages
-        with:
-          path: 'docs/'
+        # We use v3 here because upload-pages-artifact (for Pages) 
+        # is NOT the same as upload-artifact (the one that is banned).
+        # However, if your repo is failing, we will try the absolute latest:
+        uses: actions/upload-pages-artifact@v3.0.1 
 
       - name: Deploy to GitHub Pages
         id: deployment
