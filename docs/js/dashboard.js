@@ -9,6 +9,14 @@ const CONFIG = {
         conversations: 'data/conversations.json',
         knowledge: 'data/knowledge-index.json'
     },
+
+    apiEndpoints: {
+        base: 'https://script.google.com/macros/s/AKfycbyLuWnjpj5ly46ZGbzbZwbSphf5pcPnTeuP_zzU2Szf2liSN42dP5acExGn066iw0F2og/exec',
+        health: '?action=health',
+        metrics: '?action=get_metrics',
+        conversations: '?action=get_conversations&limit=10'
+    },
+    
     cache: {
         stats: null,
         conversations: null,
@@ -17,12 +25,31 @@ const CONFIG = {
     lastUpdate: null
 };
 
+// --- ADDED CODE START ---
+// Test API connection
+async function testAPIConnection() {
+    try {
+        const response = await fetch(`${CONFIG.apiEndpoints.base}${CONFIG.apiEndpoints.health}`);
+        const data = await response.json();
+        console.log('✅ API Connection successful:', data);
+        return data;
+    } catch (error) {
+        console.error('❌ API Connection failed:', error);
+        return null;
+    }
+}
+
 // DOM Elements
 let elements = {};
 
 // Initialize Dashboard
-function initDashboard() {
+async function initDashboard() {
     console.log('🔧 Initializing dashboard...');
+    // Test API connection
+    const apiStatus = await testAPIConnection();
+    if (apiStatus) {
+        console.log('✅ Connected to Google Sheets API');
+    }
     
     // Cache DOM elements
     cacheElements();
